@@ -1,0 +1,32 @@
+# tai wiki-sync
+name: wiki
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      COPILOT_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+    steps:
+      - name: Check Copilot access
+        id: gate
+        run: |
+          if [ -n "$COPILOT_TOKEN" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; else echo "No COPILOT_TOKEN secret, skipping wiki sync."; fi
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+      - name: Install tools
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          npm install -g @github/copilot @tai-platform/tai
+          tai install agent github-wiki
+          tai install skill c4-context-diagram
+          tai install skill component-diagram
+          tai install skill sequence-diagram
+      - name: Sync wiki
+        if: steps.gate.outputs.run == 'true'
+        run: copilot --agent github-wiki -p "Sync the wiki for ${{ github.repository }} at ${{ github.sha }}" --allow-all-tools
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

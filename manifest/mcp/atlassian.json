@@ -1,0 +1,17 @@
+{
+  "tai": {
+    "name": "atlassian",
+    "description": "Atlassian (Jira and Confluence) remote MCP server. Needs a one-time interactive sign-in.",
+    "version": "1.0.0",
+    "author": "herrhilmi",
+    "maturity": "stable",
+    "phase": "all",
+    "tags": ["mcp", "jira", "confluence", "example"]
+  },
+  "mcpServers": {
+    "atlassian": {
+      "type": "http",
+      "url": "https://mcp.atlassian.com/v2/mcp"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "tai-marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/build-catalog.mjs --check",
+    "build": "node scripts/build-catalog.mjs",
+    "serve": "npm run build && npx --yes http-server site -p 8080 -c-1"
+  },
+  "engines": { "node": ">=20.11" },
+  "dependencies": {
+    "semver": "^7.6.3",
+    "yaml": "^2.6.0"
+  }
+}
